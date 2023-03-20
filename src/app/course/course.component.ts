@@ -17,6 +17,7 @@ import {merge, fromEvent, Observable, concat} from 'rxjs';
 import {Lesson} from '../model/lesson';
 import {createHttpObservable} from '../common/util';
 import {Store} from '../common/store.service';
+import { debug } from '../common/debug';
 
 
 @Component({
@@ -45,6 +46,7 @@ export class CourseComponent implements OnInit, AfterViewInit {
     this.lessons$ = fromEvent<any>(this.input.nativeElement, "keyup").pipe(
       map((event) => event.target.value),
       startWith(''),
+      debug(1,"search"),
       debounceTime(400),
       distinctUntilChanged(),
       switchMap((search) => this.loadLessons(search))
